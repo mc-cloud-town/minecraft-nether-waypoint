@@ -7,8 +7,8 @@ import math
 def paint_chinese_opencv(im, chinese, pos, color):
     img_PIL = Image.fromarray(cv.cvtColor(im, cv.COLOR_BGR2RGB))
     font = ImageFont.truetype('setofont.ttf', 16)
-    fillColor = color  # (255,0,0)
-    position = pos  # (100,100)
+    fillColor = color  
+    position = pos  
     draw = ImageDraw.Draw(img_PIL)
     draw.text(position, chinese, font=font, fill=fillColor)
 
@@ -55,14 +55,9 @@ else:
 
 img = np.zeros((maxp, maxp, 3), np.uint8)
 img[:] = (255, 255, 255)
-# TODO
 
-centerpointxx = (maxp, int(maxp/2))
-centerpointxy = (-maxp, int(maxp/2))
-centerpointyx = (int(maxp/2), maxp)
-centerpointyy = (int(maxp/2), -maxp)
-cv.line(img, centerpointxx, centerpointxy, (0, 0, 0), 1)
-cv.line(img, centerpointyx, centerpointyy, (0, 0, 0), 1)
+cv.line(img, (maxp, int(maxp/2)), (-maxp, int(maxp/2)), (0, 0, 0), 1)
+cv.line(img, (int(maxp/2), maxp), (int(maxp/2), -maxp), (0, 0, 0), 1)
 
 
 for i in points:
@@ -70,7 +65,6 @@ for i in points:
               int(i["y"]*zoom+int(maxp/2)-centery*zoom)), 2, (0, 255, 0), 3)
     img = paint_chinese_opencv(img, i["name"], (int(
         i["x"]*zoom+int(maxp/2)-centerx*zoom+3), int(i["y"]*zoom+int(maxp/2)-centery*zoom)+3), (0, 0, 255))
-    print(i["x"]-centerx, i["y"]-centery)
     if i["x"]- centerx > 0 and i["y"]- centery > 0:
         if i["x"] - centerx > i["y"] - centery: # 如果x軸大於y軸
 
